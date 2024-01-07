@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Filme Aleatório</title>
+  </head>
+  <body>
+    <h1>Filme Aleatório</h1>
+
+    <button onclick="buscarFilmeAleatorio()">Buscar Filme Aleatório</button>
+
+    <div id="detalhesFilme">
+      <!-- Os detalhes do filme serão exibidos aqui -->
+    </div>
+
+    <script type="module" src="server.js">
+      // Importar funções do módulo filme.js
+      import {
+        obterTodosOsIdsDosFilmesConcorrente,
+        obterIdAleatorio,
+        obterDetalhesDoFilme,
+      } from "server.js";
+
+      // Função para buscar um filme aleatório e exibir os detalhes
+      async function buscarFilmeAleatorio() {
+        try {
+          // Obter todos os IDs dos filmes
+          const idsDosFilmes = await obterTodosOsIdsDosFilmesConcorrente();
+
+          // Obter um ID aleatório
+          const idAleatorio = obterIdAleatorio(idsDosFilmes);
+
+          // Obter detalhes do filme usando o ID aleatório
+          const detalhesDoFilme = await obterDetalhesDoFilme(idAleatorio);
+
+          // Exibir os detalhes do filme
+          const detalhesFilmeElement = document.getElementById("detalhesFilme");
+          detalhesFilmeElement.innerHTML = `
+          <h2>${detalhesDoFilme.title}</h2>
+          <img src="${detalhesDoFilme.image}" alt="Poster do Filme">
+          <p>${detalhesDoFilme.overview}</p>
+        `;
+        } catch (error) {
+          console.error(error);
+        }
+      }
+    </script>
+  </body>
+</html>
