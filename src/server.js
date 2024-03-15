@@ -8,7 +8,7 @@ const language = "pt-BR";
 axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
 
 // Função para obter todos os IDs dos filmes de forma concorrente
-export async function obterTodosOsIdsDosFilmesConcorrente(pages = 5) {
+export async function obterTodosOsIdsDosFilmesConcorrente(pages = 100) {
   try {
     const promises = Array.from({ length: pages }, (_, index) => {
       const page = index + 1;
